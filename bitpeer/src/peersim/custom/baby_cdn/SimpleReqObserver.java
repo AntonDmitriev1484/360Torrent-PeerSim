@@ -16,13 +16,10 @@
  *
  */
 
-package custom.baby_cdn;
+package peersim.custom.baby_cdn;
 
 import peersim.config.*;
 import peersim.core.*;
-import peersim.edsim.EDSimulator;
-import peersim.transport.E2ETransport;
-import peersim.vector.*;
 import peersim.util.IncrementalStats;
 
 /**

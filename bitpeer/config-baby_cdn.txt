@@ -12,7 +12,7 @@ simulation.endtime T_CYCLE * CYCLES
 simulation.logtime T_CYCLE
 # logtime dumps the current simulation time to stderr
 
-protocol.req custom.baby_cdn.SimpleReq
+protocol.req peersim.custom.baby_cdn.SimpleReq
 protocol.req.step T_CYCLE
 protocol.req.transport tr
 protocol.req.value 1
@@ -22,7 +22,7 @@ protocol.tr peersim.transport.E2ETransport
 # Maybe since only messages advance time, I need to manually tick message?
 
 # Use CSVParser as an initializer for the e2e protocol
-init.tr_init custom.parser.CSVParser
+init.tr_init peersim.custom.parser.NetDelayParser
 init.tr_init.protocol tr
 init.tr_init.size SIZE
 init.tr_init.file C:/Users/soula/OneDrive/Desktop/Programming/peersim-1.0.5/data/fake_regional.csv
@@ -41,7 +41,7 @@ init.sch.protocol req
 init.sch.randstart
 
 
-control.0 custom.baby_cdn.SimpleReqObserver
+control.0 peersim.custom.baby_cdn.SimpleReqObserver
 control.0.protocol req
 control.0.transport tr
 control.0.step T_OBSERVE

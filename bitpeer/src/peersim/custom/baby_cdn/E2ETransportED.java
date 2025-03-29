@@ -1,11 +1,8 @@
-package custom.baby_cdn;
+package peersim.custom.baby_cdn;
 
-import peersim.config.Configuration;
-import peersim.config.FastConfig;
 import peersim.core.Node;
 import peersim.edsim.EDProtocol;
 import peersim.transport.E2ETransport;
-import peersim.transport.Transport;
 
 /**
  * Wrapper around E2ETransport to make it compatible with EDSimulator.

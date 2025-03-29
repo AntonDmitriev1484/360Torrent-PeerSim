@@ -1,8 +1,7 @@
-package custom.baby_cdn;
+package peersim.custom.baby_cdn;
 
 import peersim.config.Configuration;
 import peersim.core.*;
-import peersim.config.FastConfig;
 import peersim.transport.E2ETransport;
 import peersim.transport.Transport;
 import peersim.vector.SingleValueHolder;

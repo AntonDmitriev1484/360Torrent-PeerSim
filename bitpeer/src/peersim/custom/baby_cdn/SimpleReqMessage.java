@@ -1,4 +1,4 @@
-package custom.baby_cdn;
+package peersim.custom.baby_cdn;
 
 import peersim.core.Node;
 

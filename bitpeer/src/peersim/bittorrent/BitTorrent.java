@@ -352,6 +352,9 @@ public class BitTorrent implements EDProtocol {
 	 *	node is the tracker.
 	 */
 	private Node tracker = null;
+
+	// My added properties:
+	public String region = "";
 	
 	/**
 	 *	The default constructor. Reads the configuration file and initializes the

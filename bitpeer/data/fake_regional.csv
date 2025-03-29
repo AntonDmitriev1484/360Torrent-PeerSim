@@ -1,0 +1,6 @@
+W,N,{'weight': 100}
+W,C,{'weight': 35}
+W,F,{'weight': 120}
+N,C,{'weight': 120}
+N,F,{'weight': 35}
+C,F,{'weight': 100}

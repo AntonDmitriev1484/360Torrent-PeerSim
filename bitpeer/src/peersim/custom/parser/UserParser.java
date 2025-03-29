@@ -16,17 +16,21 @@
  *
  */
 
-package custom.parser;
+package peersim.custom.parser;
 
-import java.io.*;
-import java.util.*;
-
-import custom.baby_cdn.SimpleReq;
-import peersim.config.*;
+import peersim.bittorrent.BitTorrent;
+import peersim.config.Configuration;
+import peersim.config.IllegalParameterException;
 import peersim.core.Control;
 import peersim.core.Network;
 import peersim.transport.E2ENetwork;
 import peersim.transport.E2ETransport;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
 
 /**
  * Initializes static singleton {@link E2ENetwork} by reading a king data set.
@@ -34,7 +38,7 @@ import peersim.transport.E2ETransport;
  * @author Alberto Montresor
  * @version $Revision: 1.9 $
  */
-public class CSVParser implements Control
+public class UserParser implements Control
 {
 
 // ---------------------------------------------------------------------
@@ -71,7 +75,7 @@ private double ratio;
 private String prefix;
 
 private int net_size;
-private int tr_pid;
+private int protocol_pid;
 
 // ---------------------------------------------------------------------
 // Initialization
@@ -80,12 +84,12 @@ private int tr_pid;
 /**
  * Read the configuration parameters.
  */
-public CSVParser(String prefix) {
+public UserParser(String prefix) {
 	this.prefix = prefix;
 	net_size = Configuration.getInt("network.size");
 	ratio = Configuration.getDouble(prefix + "." + PAR_RATIO, 1);
 	filename = Configuration.getString(prefix + "." + PAR_FILE, null);
-	tr_pid = Configuration.getPid(prefix+".protocol");
+	protocol_pid = Configuration.getPid(prefix+".protocol");
 }
 
 // ---------------------------------------------------------------------
@@ -140,11 +144,13 @@ public boolean execute() {
 		line = in.readLine();  // Skip header
 		lc++;
 
+		int N_VAR = 2;
+
 		while ((line = in.readLine()) != null) {
 			StringTokenizer tok = new StringTokenizer(line, ",");
-			if (tok.countTokens() != 3) {
+			if (tok.countTokens() != N_VAR) {
 				System.err.println("CSVParser: " + filename + ", line " + lc + ":");
-				System.err.println("Invalid line format: <src, dst, rtt>");
+				System.err.println("Invalid line format");
 				try {
 					in.close();
 				} catch (IOException e1) {
@@ -153,25 +159,12 @@ public boolean execute() {
 			}
 
 			// Parse source, destination, and RTT values
-			String src = tok.nextToken().trim();
-			String dst = tok.nextToken().trim();
-			double rtt = Double.parseDouble(tok.nextToken().trim());
+			int node_id = Integer.valueOf(tok.nextToken().trim());
+			String region = tok.nextToken().trim();
 
-			int srcid = Integer.valueOf(src);
-			int dstid = Integer.valueOf(dst);
-
-			// Set latency between nodes
-			int latency = (int) (rtt * ratio);
-			E2ENetwork.setLatency(srcid, dstid, latency);
+			((BitTorrent)Network.get(node_id).getProtocol(protocol_pid)).region = region;
 
 			lc++;
-		}
-
-		// Set each node's router to be its pid
-		// This is key to actually enable the delay when we send messages!
-		for (int i = 0; i < Network.size(); i++) {
-			E2ETransport protocol = (E2ETransport) Network.get(i).getProtocol(tr_pid);
-			protocol.setRouter(i);
 		}
 
 		in.close();

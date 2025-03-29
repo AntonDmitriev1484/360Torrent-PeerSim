@@ -3,7 +3,7 @@ import csv
 
 G = nx.Graph()
 
-DATA_DIR = "../../../../peersim-1.0.5/data"
+DATA_DIR = "C:\\Users\\soula\\OneDrive\\Desktop\\Programming\\CS525\\360Torrent-PeerSim\\bitpeer\\data"
 FILE_NAME = "fake_regional.csv"
 FILE = DATA_DIR+"\\"+FILE_NAME
 
